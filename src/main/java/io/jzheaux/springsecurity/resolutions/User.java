@@ -1,85 +1,78 @@
 package io.jzheaux.springsecurity.resolutions;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.UUID;
 
-@Entity(name = "users")
+@Entity(name="users")
 public class User implements Serializable {
-    @Id
-    UUID id;
+	@Id
+	UUID id;
 
-    @Column
-    String username;
+	@Column(name="username")
+	String username;
 
-    @Column
-    String password;
+	@Column
+	String password;
 
-    @Column
-    boolean enabled = true;
+	@Column
+	boolean enabled = true;
 
-    public User() {
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	Collection<UserAuthority> userAuthorities = new ArrayList<>();
 
-    }
+	User() {}
 
-    public User(User user) {
-        this.id = user.id;
-        this.username = user.username;
-        this.password = user.password;
-        this.enabled = user.enabled;
-        this.userAuthorities = user.userAuthorities;
-    }
+	User(String username, String password) {
+		this.id = UUID.randomUUID();
+		this.username = username;
+		this.password = password;
+	}
 
-    public User(String username, String password) {
-        this.id = UUID.randomUUID();
-        this.username = username;
-        this.password = password;
-    }
+	public UUID getId() {
+		return id;
+	}
 
-    public UUID getId() {
-        return id;
-    }
+	public void setId(UUID id) {
+		this.id = id;
+	}
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public boolean isEnabled() {
+		return enabled;
+	}
 
-    public boolean isEnabled() {
-        return enabled;
-    }
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+	public Collection<UserAuthority> getUserAuthorities() {
+		return userAuthorities;
+	}
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    Collection<UserAuthority> userAuthorities = new ArrayList<>();
-
-    public Collection<UserAuthority> getUserAuthorities() {
-        return Collections.unmodifiableCollection(this.userAuthorities);
-    }
-
-    public void grantAuthority(String authority) {
-        UserAuthority userAuthority = new UserAuthority(this, authority);
-        this.userAuthorities.add(userAuthority);
-    }
+	public void grantAuthority(String authority) {
+		this.userAuthorities.add(new UserAuthority(this, authority));
+	}
 }
