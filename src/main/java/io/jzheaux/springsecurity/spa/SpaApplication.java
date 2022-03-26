@@ -10,22 +10,22 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @SpringBootApplication
 public class SpaApplication {
-	@Bean
-	public TomcatConnectorCustomizer connectorCustomizer() {
-		return container -> container.setPort(4000);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SpaApplication.class, args);
+    }
 
-	@Configuration
-	static class SecurityConfig extends WebSecurityConfigurerAdapter {
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			http
-				.authorizeRequests(authz -> authz
-					.anyRequest().permitAll());
-		}
-	}
+    @Bean
+    public TomcatConnectorCustomizer connectorCustomizer() {
+        return container -> container.setPort(4000);
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpaApplication.class, args);
-	}
+    @Configuration
+    static class SecurityConfig extends WebSecurityConfigurerAdapter {
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                    .authorizeRequests(authz -> authz
+                            .anyRequest().permitAll());
+        }
+    }
 }
