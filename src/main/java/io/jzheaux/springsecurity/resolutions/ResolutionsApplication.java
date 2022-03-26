@@ -69,11 +69,6 @@ public class ResolutionsApplication extends WebSecurityConfigurerAdapter {
 				.filter(new ServletBearerExchangeFilterFunction());
 	}
 
-	@Bean
-	public UserService userService(){
-		return new UserService();
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(ResolutionsApplication.class, args);
 	}

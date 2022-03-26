@@ -29,8 +29,6 @@ public class ResolutionController {
 		this.users = users;
 	}
 
-	@CrossOrigin
-	@PreAuthorize("hasAuthority('resolution:read')")
 	@PostFilter("@post.filter(#root)")
 	@GetMapping("/resolutions")
 	public Iterable<Resolution> read() {
@@ -39,7 +37,7 @@ public class ResolutionController {
 		if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("user:read"))) {
 			for (Resolution resolution : resolutions) {
 				String name = this.users.getFullName(resolution.getOwner())
-						.orElse("none");
+						.orElse("Anonymous");
 				resolution.setText(resolution.getText() + ", by " + name);
 			}
 		}
