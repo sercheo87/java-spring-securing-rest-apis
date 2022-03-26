@@ -9,10 +9,8 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.stereotype.Component;
-import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.util.Collection;
 import java.util.Map;
@@ -59,7 +57,7 @@ public class UserRepositoryJwtAuthenticationConverter implements Converter<Jwt, 
 
         @Override
         public Map<String, Object> getAttributes() {
-           return this.attributes;
+            return this.attributes;
         }
 
         @Override
